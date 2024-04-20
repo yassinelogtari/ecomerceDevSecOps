@@ -1,0 +1,30 @@
+version: '3'
+services:
+  api:
+    image: node:16
+    container_name: api
+    working_dir: /app
+    command: npm start
+    ports:
+      - "8000:8000" 
+    volumes:
+      - "./backend/:/app" 
+  client:
+    image: node:16
+    container_name: client
+    working_dir: /src
+    command: npm start
+    ports:
+      - "3000:3000" 
+    volumes:
+      - "./frontend/:/src"    
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: yassine
+      MONGO_INITDB_ROOT_PASSWORD: yassine
+    volumes:
+      - db-data:/data/db
+volumes:
+  db-data: {}    
