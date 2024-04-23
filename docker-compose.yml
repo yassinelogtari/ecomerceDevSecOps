@@ -19,7 +19,7 @@ services:
     volumes:
       - "./frontend/:/src"    
   mongo:
-    image: mongo2
+    image: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: yassine
