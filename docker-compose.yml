@@ -1,23 +1,23 @@
-version: '3'
+version: "3"
 services:
   api:
     image: node:16
-    container_name: api2
+    container_name: api
     working_dir: /app
     command: npm start
     ports:
-      - "8000:8000" 
+      - "8000:8000"
     volumes:
-      - "./backend/:/app" 
+      - "./backend/:/app"
   client:
     image: node:16
-    container_name: client2
+    container_name: client
     working_dir: /src
     command: npm start
     ports:
-      - "3000:3000" 
+      - "3000:3000"
     volumes:
-      - "./frontend/:/src"    
+      - "./frontend/:/src"
   mongo:
     image: mongo
     restart: always
@@ -27,4 +27,4 @@ services:
     volumes:
       - db-data:/data/db
 volumes:
-  db-data: {}    
+  db-data: {}
