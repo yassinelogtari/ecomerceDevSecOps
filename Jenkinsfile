@@ -1,7 +1,6 @@
 pipeline {
     agent any
     stages {
-        
         stage('Front-end: npm install') {
             steps {
                 // Navigate to the front-end directory and run npm install
@@ -18,19 +17,16 @@ pipeline {
                 }
             }
         }
-   stage('Code Analysis with SonarQube') {
-    steps {
-        script {
-            def scannerHome = tool name: 'sonarscanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-            withSonarQubeEnv('sonarserver') { // Update the SonarQube installation name here
-                bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=<pfa> -Dsonar.sources=<src>"
+        stage('Code Analysis with SonarQube') {
+            steps {
+                script {
+                    def scannerHome = tool name: 'sonarscanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                    withSonarQubeEnv('sonarserver') { // Update the SonarQube installation name here
+                        bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=<pfa> -Dsonar.sources=<src>"
+                    }
+                }
             }
-        }
-    }
-}
-
-}
-
+        } // Add this closing brace
         stage('Build Images') {
             steps {
                 script {
@@ -42,6 +38,5 @@ pipeline {
                 }
             }
         }
-         
     }
 }
