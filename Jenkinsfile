@@ -17,16 +17,6 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube analysis') {
-            steps {
-                script {
-                    def scannerHome = tool name: 'sonarscanner'
-                    withSonarQubeEnv('sonarserver') {
-                       bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=pfa"
-                    }
-                }
-            }
-        }
         stage('Build Images') {
              steps {
                 script {
@@ -34,6 +24,16 @@ pipeline {
                         sh 'docker-compose up --build'
                     } else {
                         bat 'docker-compose up --build'
+                    }
+                }
+            }
+        }
+         stage('SonarQube analysis') {
+            steps {
+                script {
+                    def scannerHome = tool name: 'sonarscanner'
+                    withSonarQubeEnv('sonarserver') {
+                       bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=pfa"
                     }
                 }
             }
