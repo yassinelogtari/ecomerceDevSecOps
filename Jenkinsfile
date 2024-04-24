@@ -1,27 +1,23 @@
 pipeline {
     agent any
-    
     stages {
-        stage('Install Dependencies') {
+        
+        stage('Front-end: npm install') {
             steps {
-                script {
-                    // Run npm install for both backend and frontend
-                    bat 'npm install --prefix ./backend'
-                    bat 'npm install --prefix ./frontend'
+                // Navigate to the front-end directory and run npm install
+                dir('client') {
+                    bat 'npm install'
                 }
             }
         }
-        stage('Build Docker Image') {
+        stage('Back-end: npm install') {
             steps {
-                script{
-                    // Adjust the docker-compose command based on the platform
-                    if (isUnix()) {
-                        sh 'docker-compose up --build'
-                    } else {
-                        bat 'docker-compose up --build'
-                    }
+                // Navigate to the back-end directory and run npm install
+                dir('server') {
+                    bat 'npm install'
                 }
             }
         }
+        // Add more stages for testing, building, deploying, etc.
     }
 }
