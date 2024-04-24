@@ -19,22 +19,17 @@ pipeline {
             }
         }
       stage('Code Analysis with SonarQube') {
+   stage('Code Analysis with SonarQube') {
     steps {
         script {
             def scannerHome = tool name: 'sonarscanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-            withSonarQubeEnv('sonarserver') {
-                // Define the metadata file path
-                def metadataFilePath = "${env.Agent_TempDirectory}/sonar/${env.BUILD_NUMBER}/test/report-task.txt"
-                // Execute SonarQube scanner with additional parameters
-                bat """
-                    ${scannerHome}/bin/sonar-scanner \
-                    -Dsonar.projectKey=<pfa> \
-                    -Dsonar.sources=<src> \
-                    -Dsonar.scanner.metadataFilePath=${metadataFilePath}
-                """
+            withSonarQubeEnv('sonarserver') { // Update the SonarQube installation name here
+                bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=<pfa> -Dsonar.sources=<src>"
             }
         }
     }
+}
+
 }
 
         stage('Build Images') {
