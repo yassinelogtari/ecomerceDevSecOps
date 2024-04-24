@@ -22,7 +22,7 @@ pipeline {
                 script {
                     def scannerHome = tool name: 'sonarscanner'
                     withSonarQubeEnv('sonarserver') {
-                        bat "${scannerHome}/bin/sonar-scanner"
+                       bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=pfa"
                     }
                 }
             }
