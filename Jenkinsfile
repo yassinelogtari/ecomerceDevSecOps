@@ -6,7 +6,7 @@ pipeline {
             steps {
                 // Navigate to the front-end directory and run npm install
                 dir('frontend') {
-                    bat 'npm install'
+                    bat 'npm install --legacy-peer-deps'
                 }
             }
         }
