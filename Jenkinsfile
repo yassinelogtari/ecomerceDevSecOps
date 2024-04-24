@@ -5,7 +5,7 @@ pipeline {
         stage('Front-end: npm install') {
             steps {
                 // Navigate to the front-end directory and run npm install
-                dir('client') {
+                dir('frontend') {
                     bat 'npm install'
                 }
             }
@@ -13,7 +13,7 @@ pipeline {
         stage('Back-end: npm install') {
             steps {
                 // Navigate to the back-end directory and run npm install
-                dir('server') {
+                dir('backend') {
                     bat 'npm install'
                 }
             }
