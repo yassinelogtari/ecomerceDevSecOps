@@ -18,12 +18,12 @@ pipeline {
                 }
             }
         }
-        stage('Code Analysis with SonarQube') {
+       stage('Code Analysis with SonarQube') {
             steps {
                 script {
                     def scannerHome = tool name: 'sonarscanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                    withSonarQubeEnv('SonarQube') {
-                        bat "${scannerHome}/bin/sonar-scanner"
+                    withSonarQubeEnv('sonarscanner') { // Update the SonarQube installation name here
+                        sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
