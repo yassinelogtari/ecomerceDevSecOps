@@ -17,16 +17,16 @@ pipeline {
                 }
             }
         }
-        stage('Code Analysis with SonarQube') {
+        stage('SonarQube analysis') {
             steps {
                 script {
-                    def scannerHome = tool name: 'sonarscanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                    withSonarQubeEnv('sonarserver') { // Update the SonarQube installation name here
-                        bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=<pfa> -Dsonar.sources=<src>"
+                    def scannerHome = tool name: 'sonarscanner'
+                    withSonarQubeEnv('sonarqubeInstallation') {
+                        sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
-        } // Add this closing brace
+        }
         stage('Build Images') {
             steps {
                 script {
