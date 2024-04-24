@@ -18,12 +18,15 @@ pipeline {
             }
         }
         stage('SonarQube analysis') {
-    def scannerHome = tool '<sonarscanner>'; // must match the name of an actual scanner installation directory on your Jenkins build agent
-    withSonarQubeEnv('sonarserver') { // If you have configured more than one global server connection, you can specify its name as configured in Jenkins
-      bat "${scannerHome}/bin/sonar-scanner"
-    }
-  }
-        
+            steps {
+                script {
+                    def scannerHome = tool name: 'sonarscanner'
+                    withSonarQubeEnv('sonarserver') {
+                        bat "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
         stage('Build Images') {
             steps {
                 script {
