@@ -23,7 +23,7 @@ pipeline {
                 script {
                     def scannerHome = tool name: 'sonarscanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     withSonarQubeEnv('sonarserver') { // Update the SonarQube installation name here
-                        bat "${scannerHome}/bin/sonar-scanner"
+                        bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=<pfa> -Dsonar.sources=<src>"
                     }
                 }
             }
