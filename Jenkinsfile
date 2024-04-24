@@ -1,7 +1,6 @@
 pipeline {
     agent any
     stages {
-        
         stage('Front-end: npm install') {
             steps {
                 // Navigate to the front-end directory and run npm install
@@ -18,18 +17,18 @@ pipeline {
                 }
             }
         }
-        stage('Code Analysis with SonarQube') {
+        stage('SonarQube analysis') {
             steps {
                 script {
-                    def scannerHome = tool name: 'sonarscanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                    withSonarQubeEnv('SonarQube') {
-                        bat "${scannerHome}/bin/sonar-scanner"
+                    def scannerHome = tool name: 'sonarscanner'
+                    withSonarQubeEnv('sonarserver') {
+                       bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=pfa"
                     }
                 }
             }
         }
         stage('Build Images') {
-            steps {
+             steps {
                 script {
                     if (isUnix()) {
                         sh 'docker-compose up --build'
@@ -39,6 +38,5 @@ pipeline {
                 }
             }
         }
-         
     }
 }
