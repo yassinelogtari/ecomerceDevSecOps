@@ -13,7 +13,6 @@ pipeline {
         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
       }
     }
-}
 
         
         stage('Front-end: npm install') {
