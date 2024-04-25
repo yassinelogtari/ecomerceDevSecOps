@@ -20,11 +20,8 @@ pipeline {
         stage('Build Images') {
              steps {
                 script {
-                    if (isUnix()) {
-                        sh 'docker-compose up --build'
-                    } else {
                         bat 'docker-compose up --build'
-                    }
+                    
                 }
             }
         }
