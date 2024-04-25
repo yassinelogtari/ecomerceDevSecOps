@@ -3,17 +3,15 @@ pipeline {
     
     stages {
        stage('OWASP Dependency-Check Vulnerabilities') {
-    steps {
-        script {
-            def dependencyCheckHome = tool name: 'OWASP dependency check'
-            def dependencyCheckScript = dependencyCheckHome + '\\dependency-check.bat'
-            bat "call ${dependencyCheckScript} \
-                --project MERN \
-                --scan .\\ \
-                --format ALL \
-                --out .\\"
-        }
-        step([$class: 'DependencyCheckPublisher', pattern: 'dependency-check-report.xml'])
+      steps {
+        dependencyCheck additionalArguments: ''' 
+                    -o './'
+                    -s './'
+                    -f 'ALL' 
+                    --prettyPrint''', odcInstallation: 'OWASP dependency check'
+        
+        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+      }
     }
 }
 
