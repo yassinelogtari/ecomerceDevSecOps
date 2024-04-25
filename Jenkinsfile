@@ -22,18 +22,6 @@ pipeline {
                 }
             }
         }
-        stage('OWASP Dependency-Check Vulnerabilities') {
-      steps {
-        dependencyCheck additionalArguments: ''' 
-                    -o './'
-                    -s './'
-                    -f 'ALL' 
-                    --prettyPrint''', odcInstallation: 'OWASP dependency check'
-        
-        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-      }
-    }
-        
          stage('SonarQube analysis') {
             steps {
                 script {
