@@ -1,6 +1,8 @@
 pipeline {
     agent any
-    stage('OWASP Dependency-Check Vulnerabilities') {
+    
+    stages {
+        stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
                 script {
                     def dependencyCheckHome = tool name: 'OWASP dependency check'
@@ -13,7 +15,6 @@ pipeline {
                 step([$class: 'DependencyCheckPublisher', pattern: 'dependency-check-report.xml'])
             }
         }
-    stages {
         stage('Front-end: npm install') {
             steps {
                 dir('frontend') {
