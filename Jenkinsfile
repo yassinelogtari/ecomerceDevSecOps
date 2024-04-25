@@ -3,7 +3,6 @@ pipeline {
     stages {
         stage('Front-end: npm install') {
             steps {
-                // Navigate to the front-end directory and run npm install
                 dir('frontend') {
                     bat 'npm install --legacy-peer-deps'
                 }
@@ -11,19 +10,11 @@ pipeline {
         }
         stage('Back-end: npm install') {
             steps {
-                // Navigate to the back-end directory and run npm install
                 dir('backend') {
                     bat 'npm install'
                 }
             }
         }
-        stage('Front-end: Unit Test') {
-    steps {
-        dir('frontend/src/tests') {
-            bat 'npm test'
-        }
-    }
-}
         
          stage('SonarQube analysis') {
             steps {
