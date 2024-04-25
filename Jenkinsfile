@@ -17,14 +17,14 @@ pipeline {
                 }
             }
         }
-        stage('Build Images') {
-             steps {
-                script {
-                        bat 'docker-compose up --build'
-                    
-                }
-            }
+        stage('Front-end: Unit Test') {
+    steps {
+        dir('frontend') {
+            bat 'npm test'
         }
+    }
+}
+        
          stage('SonarQube analysis') {
             steps {
                 script {
@@ -32,6 +32,14 @@ pipeline {
                     withSonarQubeEnv('sonarserver') {
                        bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=pfa"
                     }
+                }
+            }
+        }
+        stage('Build Images') {
+             steps {
+                script {
+                        bat 'docker-compose up --build'
+                    
                 }
             }
         }
