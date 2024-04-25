@@ -17,7 +17,15 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube analysis') {
+        stage('Front-end: Unit Test') {
+    steps {
+        dir('frontend') {
+            bat 'npm test'
+        }
+    }
+}
+        
+         stage('SonarQube analysis') {
             steps {
                 script {
                     def scannerHome = tool name: 'sonarscanner'
@@ -30,11 +38,8 @@ pipeline {
         stage('Build Images') {
              steps {
                 script {
-                    if (isUnix()) {
-                        sh 'docker-compose up --build'
-                    } else {
                         bat 'docker-compose up --build'
-                    }
+                    
                 }
             }
         }
