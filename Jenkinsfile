@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     def dependencyCheckHome = tool name: 'OWASP dependency check'
-                    sh "${dependencyCheckHome}/dependency-check.sh \
+                    bat "${dependencyCheckHome}/dependency-check.sh \
                         --project MERN \
                         --scan ./ \
                         --format ALL \
