@@ -2,10 +2,11 @@ pipeline {
     agent any
     
     stages {
-        stage('OWASP Dependency-Check Vulnerabilities') {
+         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
                 script {
                     def dependencyCheckHome = tool name: 'OWASP dependency check'
+                    echo "OWASP Dependency Check Home: ${dependencyCheckHome}"
                     bat "${dependencyCheckHome}/dependency-check.sh \
                         --project MERN \
                         --scan ./ \
