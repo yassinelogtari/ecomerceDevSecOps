@@ -15,7 +15,13 @@ pipeline {
                 }
             }
         }
-
+ stage('Socket: npm install') {
+            steps {
+                dir('socket') {
+                    bat 'npm install'
+                }
+            }
+        }
         stage('OWASP Dependency-Check Vulnerabilities') {
       steps {
         dependencyCheck additionalArguments: ''' 
