@@ -18,13 +18,10 @@ services:
       - "3000:3000"
     volumes:
       - "./frontend/:/src"
-  mongo:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: yassine
-      MONGO_INITDB_ROOT_PASSWORD: yassine
+  socket:
+    build: ./socket
+    container_name: socket
+    ports:
+      - "4000:4000"
     volumes:
-      - db-data:/data/db
-volumes:
-  db-data: {}
+      - "./socket:/app"
