@@ -2,24 +2,21 @@ pipeline {
     agent any
     
     stages {
-         
-         stage('OWASP Dependency-Check Vulnerabilities') {
-    steps {
-        script {
-            def dependencyCheckHome = tool name: 'OWASP dependency check'
-            def dependencyCheckScript = dependencyCheckHome + '\\dependency-check.bat'
-            bat "${dependencyCheckScript} \
-                --project MERN \
-                --scan .\\ \
-                --format ALL \
-                --out .\\"
+        stage('OWASP Dependency-Check Vulnerabilities') {
+            steps {
+                script {
+                    def dependencyCheckHome = tool name: 'OWASP dependency check'
+                    def dependencyCheckScript = dependencyCheckHome + '\\dependency-check.bat'
+                    bat "${dependencyCheckScript} \
+                        --project MERN \
+                        --scan .\\ \
+                        --format ALL \
+                        --out .\\"
+                }
+                step([$class: 'DependencyCheckPublisher', pattern: 'dependency-check-report.xml'])
+            }
         }
-        step([$class: 'DependencyCheckPublisher', pattern: 'dependency-check-report.xml'])
-    }
-}
-
-
-        }
+        
         stage('Front-end: npm install') {
             steps {
                 dir('frontend') {
@@ -27,6 +24,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Back-end: npm install') {
             steps {
                 dir('backend') {
@@ -34,29 +32,30 @@ pipeline {
                 }
             }
         }
- stage('Socket: npm install') {
+        
+        stage('Socket: npm install') {
             steps {
                 dir('socket') {
                     bat 'npm install'
                 }
             }
         }
-         stage('SonarQube analysis') {
+        
+        stage('SonarQube analysis') {
             steps {
                 script {
                     def scannerHome = tool name: 'sonarscanner'
                     withSonarQubeEnv('sonarserver') {
-                       bat "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=pfa"
+                        bat "${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=pfa"
                     }
                 }
             }
         }
         
         stage('Build Images') {
-             steps {
+            steps {
                 script {
-                        bat 'docker-compose up --build'
-                    
+                    bat 'docker-compose up --build'
                 }
             }
         }
