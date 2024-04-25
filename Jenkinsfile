@@ -2,19 +2,6 @@ pipeline {
     agent any
     
     stages {
-       stage('OWASP Dependency-Check Vulnerabilities') {
-      steps {
-        dependencyCheck additionalArguments: ''' 
-                    -o './'
-                    -s './'
-                    -f 'ALL' 
-                    --prettyPrint''', odcInstallation: 'OWASP dependency check'
-        
-        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-      }
-    }
-
-        
         stage('Front-end: npm install') {
             steps {
                 dir('frontend') {
@@ -49,7 +36,18 @@ pipeline {
                 }
             }
         }
+
+         stage('OWASP Dependency-Check Vulnerabilities') {
+      steps {
+        dependencyCheck additionalArguments: ''' 
+                    -o './'
+                    -s './'
+                    -f 'ALL' 
+                    --prettyPrint''', odcInstallation: 'OWASP dependency check'
         
+        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+      }
+    }
         stage('Build Images') {
             steps {
                 script {
