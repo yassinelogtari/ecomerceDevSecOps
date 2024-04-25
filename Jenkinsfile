@@ -2,21 +2,22 @@ pipeline {
     agent any
     
     stages {
+         
          stage('OWASP Dependency-Check Vulnerabilities') {
-          stage('OWASP Dependency-Check Vulnerabilities') {
     steps {
         script {
             def dependencyCheckHome = tool name: 'OWASP dependency check'
-            def dependencyCheckScript = dependencyCheckHome + '/dependency-check.sh'
-            sh "${dependencyCheckScript} \
+            def dependencyCheckScript = dependencyCheckHome + '\\dependency-check.bat'
+            bat "${dependencyCheckScript} \
                 --project MERN \
-                --scan ./ \
+                --scan .\\ \
                 --format ALL \
-                --out ./"
+                --out .\\"
         }
         step([$class: 'DependencyCheckPublisher', pattern: 'dependency-check-report.xml'])
     }
 }
+
 
         }
         stage('Front-end: npm install') {
