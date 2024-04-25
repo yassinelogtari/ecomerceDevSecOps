@@ -1,5 +1,18 @@
 pipeline {
     agent any
+    stage('OWASP Dependency-Check Vulnerabilities') {
+            steps {
+                script {
+                    def dependencyCheckHome = tool name: 'OWASP dependency check'
+                    sh "${dependencyCheckHome}/dependency-check.sh \
+                        --project MERN \
+                        --scan ./ \
+                        --format ALL \
+                        --out ./"
+                }
+                step([$class: 'DependencyCheckPublisher', pattern: 'dependency-check-report.xml'])
+            }
+        }
     stages {
         stage('Front-end: npm install') {
             steps {
@@ -22,17 +35,6 @@ pipeline {
                 }
             }
         }
-        stage('OWASP Dependency-Check Vulnerabilities') {
-      steps {
-        dependencyCheck additionalArguments: ''' 
-                    -o './'
-                    -s './'
-                    -f 'ALL' 
-                    --prettyPrint''', odcInstallation: 'OWASP dependency check'
-        
-        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-      }
-    }
          stage('SonarQube analysis') {
             steps {
                 script {
