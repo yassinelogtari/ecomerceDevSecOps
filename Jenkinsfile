@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Front-end: Unit Test') {
     steps {
-        dir('frontend/src') {
+        dir('frontend/src/tests') {
             bat 'npm test'
         }
     }
