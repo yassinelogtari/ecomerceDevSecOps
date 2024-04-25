@@ -3,18 +3,21 @@ pipeline {
     
     stages {
          stage('OWASP Dependency-Check Vulnerabilities') {
-            steps {
-                script {
-                    def dependencyCheckHome = tool name: 'OWASP dependency check'
-                    echo "OWASP Dependency Check Home: ${dependencyCheckHome}"
-                    bat "${dependencyCheckHome}/dependency-check.sh \
-                        --project MERN \
-                        --scan ./ \
-                        --format ALL \
-                        --out ./"
-                }
-                step([$class: 'DependencyCheckPublisher', pattern: 'dependency-check-report.xml'])
-            }
+          stage('OWASP Dependency-Check Vulnerabilities') {
+    steps {
+        script {
+            def dependencyCheckHome = tool name: 'OWASP dependency check'
+            def dependencyCheckScript = dependencyCheckHome + '/dependency-check.sh'
+            sh "${dependencyCheckScript} \
+                --project MERN \
+                --scan ./ \
+                --format ALL \
+                --out ./"
+        }
+        step([$class: 'DependencyCheckPublisher', pattern: 'dependency-check-report.xml'])
+    }
+}
+
         }
         stage('Front-end: npm install') {
             steps {
