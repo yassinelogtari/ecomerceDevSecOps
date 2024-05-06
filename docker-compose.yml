@@ -15,7 +15,7 @@ services:
     working_dir: /src
     command: npm start
     ports:
-      - "3000:3000"
+      - "3050:3050"
     volumes:
       - "./frontend/:/src"
   socket:
